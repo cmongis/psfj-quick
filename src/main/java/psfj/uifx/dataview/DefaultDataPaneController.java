@@ -17,7 +17,7 @@ import mongis.utils.task.ProgressHandler;
 public class DefaultDataPaneController<T extends Object> implements DataPaneController<T>{
     
     
-    private DataViewFactory<T> dataViewFactory;
+    private DataViewFactory<T> dataViewFactory = new SimpleDataViewFactory<>();
     
     private List<DataView<T>> viewList = new ArrayList<>();
     
@@ -25,7 +25,7 @@ public class DefaultDataPaneController<T extends Object> implements DataPaneCont
 
     private Pane pane;
     
-    private DataPaneUpdater<T> updater;
+    private DataPaneUpdater<T> updater = new SimpleDataViewUpdater<>();
     
     public DefaultDataPaneController<T> setDataViewFactory(DataViewFactory<T> dataViewFactory) {
         this.dataViewFactory = dataViewFactory;
@@ -52,11 +52,20 @@ public class DefaultDataPaneController<T extends Object> implements DataPaneCont
 
     @Override
     public DataPaneController<T> setDataViewFacoty(DataViewFactory<T> factory) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+        this.dataViewFactory = factory;
+        return this;
+        
     }
 
     @Override
     public void update(ProgressHandler handler) {
+        
+        if(dataViewFactory == null) {
+            throw new IllegalArgumentException("The DataView Factory was not set");
+        }
+        
+        
         handler = ProgressHandler.check(handler);
         this.updater.update(handler, dataViewFactory, viewList, pane.getChildren(),itemList);
     }

@@ -18,8 +18,6 @@ import mongis.utils.task.ProgressHandler;
 public class SimpleDataViewUpdater<T> implements DataPaneUpdater<T>{
 
     
-   
-    
     @Override
     public void update(ProgressHandler handler, DataViewFactory<T> factory, List<DataView<T>> viewList, List<Node> nodeList, List<T> items) {
        

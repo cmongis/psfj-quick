@@ -8,75 +8,89 @@ package psfj.uifx;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import mongis.utils.FXUtilities;
-import mongis.utils.listcell.EasyCellFactory;
+import mongis.utils.task.ProgressHandler;
+import org.scijava.Context;
 import org.scijava.Initializable;
+import org.scijava.event.EventHandler;
 import org.scijava.plugin.Parameter;
-import psfj.uifx.model.MultichannelImageGroup;
 import psfj.uifx.service.UiModelService;
 import org.scijava.plugin.PostInject;
+import psfj.uifx.dataview.ContextInjectorFactory;
+import psfj.uifx.dataview.DataPaneController;
+import psfj.uifx.dataview.DefaultDataPaneController;
+import psfj.uifx.event.ImagesLoadedEvent;
 import psfj.uifx.model.MultichannelImage;
-import psfj.uifx.widgets.MultichannelImageCellCtrl;
-import psfj.uifx.widgets.MultichannelImageGroupCellCtrl;
+import psfj.uifx.model.MultichannelImageGroup;
+import psfj.uifx.widgets.MultichannelImageDataView;
+import psfj.uifx.widgets.MultichannelImageGroupDataView;
 
 /**
  *
  * @author Cyril MONGIS [http://www.cyrilmongis.net]
  */
-
 public class ImageListPageController extends BorderPane implements Initializable {
 
     @FXML
-    private ListView<MultichannelImageGroup> groupListView;
+    private VBox groupListVBox;
+
+    DataPaneController groupListCtrl;
 
     @FXML
-    private ListView<MultichannelImage> imageListView;
-    
-    
+    private VBox imageListVBox;
+
+    DataPaneController imageListCtrl;
+
     @FXML
     private CheckBox multifieldModeCheckBox;
-    
-    
+
     @Parameter
     UiModelService uiModelService;
 
+    @Parameter
+    Context context;
+    
     public ImageListPageController() throws Exception {
         super();
 
         FXUtilities.injectFXML(this, "/fxml/ImageListPageController.fxml");
 
-        EasyCellFactory<MultichannelImageGroup, MultichannelImageGroupCellCtrl> easyFactory
-                = new EasyCellFactory<>(MultichannelImageGroupCellCtrl.class);
-
-        groupListView.setCellFactory(easyFactory);
-        
-        imageListView.setCellFactory(new EasyCellFactory<>(MultichannelImageCellCtrl.class));
-        
-        
-        
     }
 
     @PostInject
     public void init() {
 
-        groupListView.setItems(uiModelService.getUiModel().groupListProperty());
+        imageListCtrl = new DefaultDataPaneController<MultichannelImage>()
+                .bind(uiModelService.getUiModel().imageListProperty())
+                .setPane(imageListVBox)
+                .setDataViewFactory(new ContextInjectorFactory<>(context,MultichannelImageDataView.class));
 
-        imageListView.setItems(uiModelService.getUiModel().imageListProperty());
-        
+        groupListCtrl = new DefaultDataPaneController<MultichannelImageGroup>()
+                .bind(uiModelService.getUiModel().groupListProperty())
+                .setPane(groupListVBox)
+                .setDataViewFactory(new ContextInjectorFactory<>(context,MultichannelImageGroupDataView.class));
+
+        //imageListView.setItems(uiModelService.getUiModel().imageListProperty());
         uiModelService.getUiModel().multifieldModeProperty().addListener(this::onMultifieldModeChanged);
-        
+
         multifieldModeCheckBox.selectedProperty().bindBidirectional(uiModelService.getUiModel().multifieldModeProperty());
-        
-        onMultifieldModeChanged(null,Boolean.FALSE, uiModelService.getUiModel().isMultifieldMode());
+
+        onMultifieldModeChanged(null, Boolean.FALSE, uiModelService.getUiModel().isMultifieldMode());
     }
 
     private void onMultifieldModeChanged(Observable obs, Boolean oldValue, Boolean newValue) {
-        
-      System.out.println("Change !");
-       imageListView.setVisible(!newValue);
-       groupListView.setVisible(newValue);
+
+        System.out.println("Change !");
+        imageListVBox.setVisible(!newValue);
+        groupListVBox.setVisible(newValue);
     }
     
+    @EventHandler
+    public void handle(ImagesLoadedEvent event) {
+        imageListCtrl.update(ProgressHandler.NONE);
+        groupListCtrl.update(ProgressHandler.NONE);
+    }
+
 }

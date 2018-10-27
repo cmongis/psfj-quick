@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane id="AnchorPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <Label fx:id="imageNameLabel" text="Label" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <HBox fx:id="channelHBox" styleClass="vbox" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <HBox fx:id="buttonHbox" styleClass="vbox" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="addChannelButton" mnemonicParsing="false" onAction="#addChannel" text="Add channel" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Remove" />
+         </children>
+      </HBox>
+   </right>
+   <styleClass>
+      <String fx:value="multichannel-image-data-view" />
+      <String fx:value="vbox" />
+   </styleClass>
+</BorderPane>

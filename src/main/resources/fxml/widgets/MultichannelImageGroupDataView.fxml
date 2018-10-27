@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane id="AnchorPane" maxWidth="1.7976931348623157E308" styleClass="multichannel-image-group-data-view" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label fx:id="label" maxWidth="1.7976931348623157E308" styleClass="title-label" text="Group 1" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <VBox fx:id="dataList" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="7.0" />
+         </BorderPane.margin></VBox>
+   </center>
+</BorderPane>

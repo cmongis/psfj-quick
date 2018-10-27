@@ -22,7 +22,7 @@ public interface DataPaneController<T> {
     
     DataPaneController<T> setData(List<T> data);
     
-    DataPaneController<T> setDataViewFacoty(DataViewFactory<T> factory);
+    DataPaneController<T> setDataViewFactory(DataViewFactory<T> factory);
     
     void update(ProgressHandler handler);
     

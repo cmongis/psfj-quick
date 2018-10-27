@@ -11,5 +11,5 @@ package psfj.uifx.dataview;
  */
 @FunctionalInterface
 public interface DataViewFactory<T> {
-    DataView<T> create();
+    DataView<T> create() throws Exception;
 }

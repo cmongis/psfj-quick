@@ -7,6 +7,8 @@ package psfj.uifx.dataview;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 import mongis.utils.task.ProgressHandler;
 
@@ -49,15 +51,10 @@ public class DefaultDataPaneController<T extends Object> implements DataPaneCont
         
         return this;
     }
+    
+    
 
-    @Override
-    public DataPaneController<T> setDataViewFacoty(DataViewFactory<T> factory) {
-       
-        this.dataViewFactory = factory;
-        return this;
-        
-    }
-
+  
     @Override
     public void update(ProgressHandler handler) {
         
@@ -68,5 +65,21 @@ public class DefaultDataPaneController<T extends Object> implements DataPaneCont
         
         handler = ProgressHandler.check(handler);
         this.updater.update(handler, dataViewFactory, viewList, pane.getChildren(),itemList);
+    }
+    
+    
+    public DefaultDataPaneController<T> bind(ObservableList<T> list) {
+        
+        list.addListener((ListChangeListener.Change<? extends T> c)->{
+            while(c.next()) {
+                
+                this.setData(list);
+                this.update(ProgressHandler.console());
+                
+            }
+        });
+        
+        return this;
+        
     }
 }

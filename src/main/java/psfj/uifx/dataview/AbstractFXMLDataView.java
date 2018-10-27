@@ -17,7 +17,7 @@ public abstract class AbstractFXMLDataView<T extends Object> extends AbstractDat
     
     protected Node root;
     
-    public AbstractFXMLDataView(String fxml) throws IOException{
+    protected void init(String fxml) throws IOException{
         
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource(fxml));

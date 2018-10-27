@@ -25,7 +25,6 @@ public abstract class AbstractDataView<T extends Object> implements DataView<T>{
         if(item != null) {
             lastHash = item.hashCode();
         }
-        
     }
 
     public T getItem() {

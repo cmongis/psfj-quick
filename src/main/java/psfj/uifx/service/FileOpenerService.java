@@ -6,7 +6,10 @@
 package psfj.uifx.service;
 
 import java.io.File;
+import java.util.List;
+import mongis.utils.task.ProgressHandler;
 import org.scijava.service.SciJavaService;
+import psfj.uifx.model.MultichannelImageGroup;
 
 /**
  *
@@ -17,5 +20,6 @@ public interface FileOpenerService extends SciJavaService{
     
     public void open(File file);
     
+    public  List<MultichannelImageGroup> openFile(ProgressHandler handler, File file);
     
 }

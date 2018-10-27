@@ -7,13 +7,18 @@ package psfj.uifx.service;
 
 import java.util.stream.Collectors;
 import javafx.application.Platform;
+import knop.psfj.BeadImage;
 import org.scijava.event.EventHandler;
+import org.scijava.event.EventService;
+import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.service.AbstractService;
 import org.scijava.service.Service;
+import psfj.uifx.event.ImageRemovedEvent;
 import psfj.uifx.event.ImagesLoadedEvent;
 import psfj.uifx.event.LoadingImageEvent;
 import psfj.uifx.event.OpenFileAction;
+import psfj.uifx.event.RemoveImageAction;
 
 /**
  * The role of this service is to intercept data related event and update the
@@ -25,6 +30,9 @@ import psfj.uifx.event.OpenFileAction;
 public class DefaultUiModelService extends AbstractService implements UiModelService {
 
     private final DefaultUiModel uiModel = new DefaultUiModel();
+
+    @Parameter
+    public EventService eventService;
 
     @Override
     public UiModel getUiModel() {
@@ -38,32 +46,30 @@ public class DefaultUiModelService extends AbstractService implements UiModelSer
 
     @EventHandler
     public void onLoadingTask(LoadingImageEvent event) {
-        Platform.runLater(()->uiModel.taskListProperty().submitTask(event.getData()));
+        Platform.runLater(() -> uiModel.taskListProperty().submitTask(event.getData()));
     }
 
     @EventHandler
     public void onImageLoadedEvent(ImagesLoadedEvent event) {
-        
-        
+
         uiModel.groupListProperty().addAll(event.getData());
         uiModel
                 .imageListProperty()
                 .addAll(event
                         .getData()
                         .stream()
-                        .filter(group->group != null)
-                        .flatMap(group->group.getImageList().stream())
-                        .filter(image->image != null)
+                        .filter(group -> group != null)
+                        .flatMap(group -> group.getImageList().stream())
+                        .filter(image -> image != null)
                         .collect(Collectors.toList()));
         boolean modelHasImages = true;
-        
-        if(uiModel.isMultifieldMode()) {
+
+        if (uiModel.isMultifieldMode()) {
             modelHasImages = uiModel.groupListProperty().size() > 0;
-        }
-        else {
+        } else {
             modelHasImages = uiModel.imageListProperty().size() > 0;
         }
-        
+
         if (modelHasImages && uiModel.currentStepProperty().getValue() == UiStep.WELCOME) {
             uiModel.currentStepProperty().setValue(UiStep.ADD_IMAGE);
         } else {
@@ -71,5 +77,27 @@ public class DefaultUiModelService extends AbstractService implements UiModelSer
         }
 
     }
+
+    @EventHandler
+    public void onRemoveMultichannelImage(RemoveImageAction image) {
+
+        image
+                .getData()
+                .getImages()
+                .forEach(img -> img.cleanMemory(BeadImage.CLEAN_ALL));
+
+        uiModel.imageListProperty().remove(image.getData());
+        
+        uiModel.groupListProperty().forEach(group->group.getImageList().remove(image.getData()));
+        uiModel.groupListProperty().remove(image.getData());
+
+        
+        
+        
+        eventService.publish(new ImageRemovedEvent(image.getData()));
+
+    }
+    
+   
 
 }

@@ -1,18 +1,82 @@
+.root {
+    -primary:#80deea;
+    -primary-light:#b4ffff;
+    -primary-dark:#4bacb8;
+    -gray-light:#F5F5F6;
+    -gray-dark:#E1E2E1;
+    -fx-font-family:Roboto;
+    -normal-spacing:15px;
+    -half-spacing:7px;
+    -button-spacing: 7px 15px 7px 15px;
+    -card-shadow:dropshadow(gaussian,-gray-dark,2px,0.2,1px,1px)
+}
+
+
 .button {
     -fx-font-weight: bold;
 }
 
 
 .header-pane {
-    -fx-background-color:#03dac6;
+    -fx-background-color:-primary-dark;
 }
 .body {
-    -fx-background-color:#eeeeee;
+    -fx-background-color:-gray-light;
 }
 .content-pane {
-    -fx-background-color:#ffffff;
+    -fx-background-color:white;
+    -fx-effect:-card-shadow;
+    -fx-border-color:0;
+    -fx-padding:30px;
 }
 .shadow-pane {
     -fx-background-color:rgba(0,0,0,0.5);
     -fx-opacity:0;
+   
+}
+
+.button {
+    
+    -fx-background-color:-primary;
+    -fx-border:0;
+    -fx-border-radius:2;
+    
+    -fx-padding: 7px 15px 7px 15px;
+    -fx-font-weight:normal;
+    -fx-cursor:pointer;
+    -fx-text-transform:uppercase;
+    -fx-effect:-card-shadow;
+    
+}
+.multichannel-image-data-view {
+    fx-gap:7px;
+    fx-spacing:7px;
+}
+.multichannel-image-data-view .label {
+    -fx-padding:0px 15px 0px 0;
+}
+.multichannel-image-data-view .hbox {
+    -fx-gap:15px;
+}
+
+.multichannel-image-group-data-view {
+    -fx-gap:px;
+}
+.multichannel-image-group-data-view .title-label {
+    -fx-padding:15px;
+    -fx-background-color    :-gray-light;
+    -fx-font-size:1.2em;
+}
+.pane {
+    -fx-background:transparent;
+    -fx-padding:15px;
+}
+.data-view {
+    -fx-spacing:15px;
+}
+.data-view .vbox {
+    -fx-spacing:7px;
+}
+.data-view .hbox {
+    -fx-spacing:7px;
 }

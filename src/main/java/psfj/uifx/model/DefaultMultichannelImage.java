@@ -7,6 +7,7 @@ package psfj.uifx.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import knop.psfj.BeadImage;
 import knop.psfj.resolution.Microscope;
@@ -164,5 +165,17 @@ public class DefaultMultichannelImage implements MultichannelImage {
     public String toString() {
         return getName();
     }
+    
+    
+    public int hashCode() {
+        return getName().hashCode() + images.stream().mapToInt(image->image.hashCode()).sum();
+    }
 
+    @Override
+    public List<BeadImage> getImages() {
+        return Collections.unmodifiableList(images);
+    }
+    
+    
+    
 }

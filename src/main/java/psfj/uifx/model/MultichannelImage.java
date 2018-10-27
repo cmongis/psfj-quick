@@ -5,6 +5,8 @@
  */
 package psfj.uifx.model;
 
+import com.google.common.collect.ImmutableList;
+import java.util.List;
 import knop.psfj.BeadImage;
 import knop.psfj.resolution.Microscope;
 
@@ -33,7 +35,7 @@ public interface MultichannelImage {
     
     String getName();
     
-    
+    List<BeadImage> getImages();
     
     
     

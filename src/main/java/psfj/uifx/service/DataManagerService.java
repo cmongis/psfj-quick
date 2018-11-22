@@ -21,7 +21,7 @@ import psfj.uifx.model.MultichannelImageGroup;
  * @author Cyril MONGIS [http://www.cyrilmongis.net]
  */
 @Plugin(type = Service.class)
-public class DataManagerService extends AbstractPsfjUiService {
+public class DataManagerService extends AbstractPsfjUiService{
     
     
     

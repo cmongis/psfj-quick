@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import knop.psfj.BeadImageLoader;
 import knop.psfj.BeadImageLoadingException;
 import knop.psfj.DefaultBeadImageLoader;
+import mongis.utils.FXUtilities;
 import mongis.utils.task.FluentTask;
 import mongis.utils.task.ProgressHandler;
 import org.scijava.event.EventHandler;
@@ -56,7 +57,7 @@ public class DefaultFileOpenerService extends AbstractPsfjUiService implements F
         open(action.getData());
     }
 
-    public MultichannelImageGroup openSingleImage(ProgressHandler handler, File file) {
+    public MultichannelImage openSingleImage(ProgressHandler handler, File file) {
        handler.setStatus(new StringBuilder()
                             .append("Opening ...")
                             .append(file.getName())
@@ -67,7 +68,7 @@ public class DefaultFileOpenerService extends AbstractPsfjUiService implements F
        MultichannelImage image = openImage(file);
        
        if(image != null) {
-           return new DefaultMultichannelImageGroup(image);
+           return image;
        }
        else {        
            return null;
@@ -88,6 +89,7 @@ public class DefaultFileOpenerService extends AbstractPsfjUiService implements F
                 .filter(f -> f.isDirectory() == false)
                 .map(f->openSingleImage(handler, f))
                 .filter(f->f!=null)
+                .map(DefaultMultichannelImageGroup::new)
                 .collect(Collectors.toList());
 
         return collect;
@@ -96,11 +98,10 @@ public class DefaultFileOpenerService extends AbstractPsfjUiService implements F
         else {
             List<MultichannelImageGroup> list = new ArrayList<>();
             
-            MultichannelImageGroup image = openSingleImage(handler,file);
-            if(image != null) {
-                list.add(image);
+            MultichannelImageGroup group = new DefaultMultichannelImageGroup(openSingleImage(handler,file));
+            if(group != null) {
+                list.add(group);
             }
-            
             return list;
    
         }
@@ -119,6 +120,11 @@ public class DefaultFileOpenerService extends AbstractPsfjUiService implements F
 
     private void onImageLoadingOver(List<MultichannelImageGroup> list) {
         eventService.publish(new ImagesLoadedEvent(list));
+    }
+
+    @Override
+    public File promptFileOpen() {
+        return FXUtilities.openFile("Open an image",null,"Any image");
     }
 
    

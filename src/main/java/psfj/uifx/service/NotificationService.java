@@ -5,11 +5,13 @@
  */
 package psfj.uifx.service;
 
+import org.scijava.service.SciJavaService;
+
 /**
  *
  * @author Cyril MONGIS [http://www.cyrilmongis.net]
  */
-public interface NotificationService {
+public interface NotificationService extends SciJavaService {
     
     
     void error(String message);

@@ -106,7 +106,6 @@ public class DefaultMultichannelImage implements MultichannelImage {
         if (main == null) {
             main = image.getMicroscope();
         }
-
         return this;
 
     }
@@ -173,7 +172,7 @@ public class DefaultMultichannelImage implements MultichannelImage {
 
     @Override
     public List<BeadImage> getImages() {
-        return Collections.unmodifiableList(images);
+        return new ArrayList(images);
     }
     
     

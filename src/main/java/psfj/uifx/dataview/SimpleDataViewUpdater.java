@@ -61,15 +61,19 @@ public class SimpleDataViewUpdater<T> implements DataPaneUpdater<T> {
     public List<DataView<T>> create(DataViewFactory<T> factory, int number) {
 
         List<DataView<T>> newDataView = new ArrayList<>();
-
+        
+        if(factory == null) {
+            throw new IllegalStateException("No factory were specified");
+        }
+        
+        
         for (int i = 0; i != number; i++) {
 
             try {
                 newDataView.add(factory.create());
             } catch (Exception e) {
-
-                throw new IllegalStateException("Factory fails to initiate objects", e);
-
+                throw new IllegalStateException("Factory fails to initiate objects "+factory.getClass().getSimpleName(), e);
+                
             }
 
         }

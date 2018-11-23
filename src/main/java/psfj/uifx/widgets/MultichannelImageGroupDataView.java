@@ -35,7 +35,7 @@ public class MultichannelImageGroupDataView extends AbstractFXMLDataView<Multich
     final DataPaneController<MultichannelImage> dataPaneCtrl;
     
     public MultichannelImageGroupDataView() throws IOException {
-      init("/fxml/widgets/MultichannelImageGroupCellCtrl.fxml");
+      init("/fxml/widgets/MultichannelImageGroupDataView.fxml");
        
         
      dataPaneCtrl  = new DefaultDataPaneController<MultichannelImage>()

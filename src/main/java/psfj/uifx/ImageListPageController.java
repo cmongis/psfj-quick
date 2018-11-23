@@ -21,6 +21,7 @@ import org.scijava.plugin.PostInject;
 import psfj.uifx.dataview.ContextInjectorFactory;
 import psfj.uifx.dataview.DataPaneController;
 import psfj.uifx.dataview.DefaultDataPaneController;
+import psfj.uifx.event.ImageRemovedEvent;
 import psfj.uifx.event.ImagesLoadedEvent;
 import psfj.uifx.model.MultichannelImage;
 import psfj.uifx.model.MultichannelImageGroup;
@@ -89,6 +90,12 @@ public class ImageListPageController extends BorderPane implements Initializable
     
     @EventHandler
     public void handle(ImagesLoadedEvent event) {
+        imageListCtrl.update(ProgressHandler.NONE);
+        groupListCtrl.update(ProgressHandler.NONE);
+    }
+    
+    @EventHandler
+    public void onImageDeleted(ImageRemovedEvent event) {
         imageListCtrl.update(ProgressHandler.NONE);
         groupListCtrl.update(ProgressHandler.NONE);
     }

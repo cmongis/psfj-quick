@@ -14,8 +14,23 @@ import psfj.uifx.model.MultichannelImage;
  */
 public class ImageRemovedEvent extends PsfjEvent<MultichannelImage>{
     
-    public ImageRemovedEvent(MultichannelImage data) {
+    final private boolean purgeBeadImages;
+    
+     public ImageRemovedEvent(MultichannelImage data, boolean purgeBeadImages) {
         super(data);
+        this.purgeBeadImages = purgeBeadImages;
     }
+    
+    public ImageRemovedEvent(MultichannelImage data) {
+        this(data,true);
+    }
+
+    public boolean doPurgeBeadImages() {
+        return purgeBeadImages;
+    }
+
+   
+
+    
     
 }

@@ -38,7 +38,7 @@ public class WelcomePageController extends AnchorPane {
     protected void addFile() {
         
         
-        File file = FXUtilities.openFileSync("Select file to open", null, "Image file",null);
+        File file = FXUtilities.openFileSync("Select file to open", null, "Image file",".*");
         
         eventService.publish(new OpenFileAction(file));
         

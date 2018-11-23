@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package psfj.uifx.event;
+package psfj.uifx.actions;
 
+import psfj.uifx.event.PsfjEvent;
 import psfj.uifx.model.MultichannelImage;
 
 /**

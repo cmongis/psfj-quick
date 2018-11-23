@@ -124,7 +124,7 @@ public class DefaultFileOpenerService extends AbstractPsfjUiService implements F
 
     @Override
     public File promptFileOpen() {
-        return FXUtilities.openFile("Open an image",null,"Any image");
+        return FXUtilities.openFileSync("Open an image",null,"Any image","*");
     }
 
    
